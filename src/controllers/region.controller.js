@@ -20,4 +20,33 @@ async function findAllRegionsController(req, res) {
   }
 }
 
-export default { createRegionController, findAllRegionsController };
+async function updateRegionController(req, res) {
+  try {
+    const updatedRegion = req.body;
+    const regionId = req.params.id;
+    const response = await regionService.updateRegionService(
+      updatedRegion,
+      regionId
+    );
+    return res.send(response);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+async function deleteRegionController(req, res) {
+  try {
+    const regionId = req.params.id;
+    const response = await regionService.deleteRegionService(regionId);
+    return res.send(response);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+export default {
+  createRegionController,
+  findAllRegionsController,
+  updateRegionController,
+  deleteRegionController,
+};
