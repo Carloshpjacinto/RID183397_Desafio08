@@ -1,7 +1,7 @@
 import { TaxRule } from "./taxRule.entity.js";
 import regionService from "../services/region.service.js";
 
-export class UsaTaxRule extends TaxRule {
+export class CanadaTaxRule extends TaxRule {
   constructor() {
     super();
     this.tax = 0;
@@ -23,7 +23,7 @@ export class UsaTaxRule extends TaxRule {
 
   async calculation(price) {
     const regionCalculation = await regionService.findRegionByCscService(
-      "USA",
+      "Canada",
       this.state,
       this.category
     );
