@@ -49,6 +49,54 @@ function findRegionByIdRepository(regionId) {
   });
 }
 
+function findRegionByCscRepository(country, state, category) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT * FROM regions WHERE country = ? AND state = ? AND category = ?`,
+      [country, state, category],
+      (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      }
+    );
+  });
+}
+
+function findRegionByStateRepository(state) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT * FROM regions WHERE state LIKE ?`,
+      [`%${state}%`],
+      (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      }
+    );
+  });
+}
+
+function findCategoryRepository(category) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT * FROM regions WHERE category LIKE ?`,
+      [`%${category}%`],
+      (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      }
+    );
+  });
+}
+
 function updateRegionRepository(updatedRegion, regionId) {
   return new Promise((resolve, reject) => {
     const { country, state, category, rate } = updatedRegion;
@@ -105,6 +153,9 @@ export default {
   createRegionRepository,
   findAllRegionsRepository,
   findRegionByIdRepository,
+  findRegionByCscRepository,
+  findRegionByStateRepository,
+  findCategoryRepository,
   updateRegionRepository,
   deleteRegionRepository,
 };

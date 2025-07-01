@@ -15,6 +15,27 @@ async function findAllRegionService() {
   return regions;
 }
 
+async function findRegionByCscService(country, state, category) {
+  const region = await regionRepository.findRegionByCscRepository(
+    country,
+    state,
+    category
+  );
+  return region;
+}
+
+async function findRegionByStateService(state) {
+  if (!state) return await regionRepository.findAllRegionsRepository();
+  const st = await regionRepository.findRegionByStateRepository(state);
+  return st;
+}
+
+async function findCategoryService(category) {
+  if (!category) return await regionRepository.findAllRegionsRepository();
+  const ct = await regionRepository.findCategoryRepository(category);
+  return ct;
+}
+
 async function updateRegionService(updatedRegion, regionId) {
   const region = await regionRepository.findRegionByIdRepository(regionId);
   if (!region) throw new Error("Region not found");
@@ -35,6 +56,9 @@ async function deleteRegionService(regionId) {
 export default {
   createRegionService,
   findAllRegionService,
+  findRegionByCscService,
+  findRegionByStateService,
+  findCategoryService,
   updateRegionService,
   deleteRegionService,
 };
