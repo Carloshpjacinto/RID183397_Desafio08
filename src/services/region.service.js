@@ -21,6 +21,7 @@ async function findRegionByCscService(country, state, category) {
     state,
     category
   );
+
   return region;
 }
 

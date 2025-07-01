@@ -12,13 +12,17 @@ export class CanadaTaxRule extends TaxRule {
   async isValidState(state) {
     const st = await regionService.findRegionByStateService(state);
 
-    if (st) this.state = st.state;
+    if (st != undefined) {
+      this.state = st.state;
+    }
   }
 
   async isValidCategory(category) {
     const ct = await regionService.findCategoryService(category);
 
-    if (ct) this.category = ct.category;
+    if (ct != undefined) {
+      this.category = ct.category;
+    }
   }
 
   async calculation(price) {
@@ -27,7 +31,6 @@ export class CanadaTaxRule extends TaxRule {
       this.state,
       this.category
     );
-
     this.tax =
       parseFloat(price) +
       parseFloat(price) * parseFloat(regionCalculation.rate);

@@ -67,25 +67,21 @@ function findRegionByCscRepository(country, state, category) {
 
 function findRegionByStateRepository(state) {
   return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT * FROM regions WHERE state LIKE ?`,
-      [`%${state}%`],
-      (err, row) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(row);
-        }
+    db.get(`SELECT * FROM regions WHERE state = ?`, [state], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row);
       }
-    );
+    });
   });
 }
 
 function findCategoryRepository(category) {
   return new Promise((resolve, reject) => {
     db.get(
-      `SELECT * FROM regions WHERE category LIKE ?`,
-      [`%${category}%`],
+      `SELECT * FROM regions WHERE category = ?`,
+      [category],
       (err, row) => {
         if (err) {
           reject(err);

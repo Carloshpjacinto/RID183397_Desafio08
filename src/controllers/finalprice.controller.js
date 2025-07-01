@@ -1,30 +1,20 @@
-import { CanadaTaxRuleCreator } from "../creators/canadaTaxRule.creator.js";
-import { UsaTaxRuleCreator } from "../creators/usaTaxRule.creator.js";
+import finalPriceService from "../services/finalprice.service.js";
 
-async function finalPriceCalculation(req, res) {
-  const { state, category, price } = req.query;
-
-  const usaTax = new UsaTaxRuleCreator();
-
-  const canadaTax = new CanadaTaxRuleCreator();
+async function finalPriceController(req, res) {
+  const { country, state, category, price } = req.query;
 
   try {
-    if (state == "USA") {
-      (async () => {
-        const tax = await usaTax.calculate(state, category, price);
+    const finalPrice = await finalPriceService.calculateFinalPrice(
+      country,
+      state,
+      category,
+      price
+    );
 
-        res.send(parseFloat(tax.toFixed(2)));
-      })();
-    } else if (state == "Canada") {
-      (async () => {
-        const tax = await canadaTax.calculate(state, category, price);
-
-        res.send(parseFloat(tax.toFixed(2)));
-      })();
-    }
+    res.status(201).send(finalPrice);
   } catch (error) {
     return res.status(400).send(error.message);
   }
 }
 
-export default { finalPriceCalculation };
+export default { finalPriceController };
