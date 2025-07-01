@@ -20,4 +20,33 @@ async function findAllCouponsController(req, res) {
   }
 }
 
-export default { createCouponController, findAllCouponsController };
+async function updateCouponController(req, res) {
+  try {
+    const updatedCoupon = req.body;
+    const couponId = req.params.id;
+    const response = await couponService.updateCouponService(
+      updatedCoupon,
+      couponId
+    );
+    return res.send(response);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+async function deleteCouponController(req, res) {
+  try {
+    const couponId = req.params.id;
+    const response = await regionService.deleteRegionService(couponId);
+    return res.send(response);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
+export default {
+  createCouponController,
+  findAllCouponsController,
+  updateCouponController,
+  deleteCouponController,
+};

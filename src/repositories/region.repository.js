@@ -37,4 +37,74 @@ function findAllRegionsRepository() {
   });
 }
 
-export default { createRegionRepository, findAllRegionsRepository };
+function findRegionByIdRepository(regionId) {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT * FROM regions WHERE id = ?`, [regionId], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row);
+      }
+    });
+  });
+}
+
+function updateRegionRepository(updatedRegion, regionId) {
+  return new Promise((resolve, reject) => {
+    const { country, state, category, rate } = updatedRegion;
+    let query = "UPDATE regions SET";
+    const values = [];
+
+    if (country !== undefined) {
+      query += " country = ?,";
+      values.push(country);
+    }
+    if (state !== undefined) {
+      query += " state = ?,";
+      values.push(state);
+    }
+
+    if (category !== undefined) {
+      query += " category = ?,";
+      values.push(category);
+    }
+
+    if (rate !== undefined) {
+      query += " rate = ?,";
+      values.push(rate);
+    }
+
+    query = query.slice(0, -1);
+
+    query += " WHERE id = ?";
+    values.push(regionId);
+
+    db.run(query, values, function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ id: regionId, ...updatedRegion });
+      }
+    });
+  });
+}
+
+function deleteRegionRepository(regionId) {
+  return new Promise((resolve, reject) => {
+    db.run(`DELETE FROM regions WHERE id = ?`, [regionId], function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ message: "Region deleted successfully", regionId });
+      }
+    });
+  });
+}
+
+export default {
+  createRegionRepository,
+  findAllRegionsRepository,
+  findRegionByIdRepository,
+  updateRegionRepository,
+  deleteRegionRepository,
+};
