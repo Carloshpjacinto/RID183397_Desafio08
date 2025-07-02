@@ -1,4 +1,4 @@
-import { DiscountCouponRuleCreator } from "../creators/CouponRuleCreator/discountCoupon.creator.js";
+import { DiscountCouponRuleCreator } from "../creators/couponRuleCreator/discountCoupon.creator.js";
 import { CanadaTaxRuleCreator } from "../creators/TaxRuleCreator/canadaTaxRule.creator.js";
 import { DefaultTaxRuleCreator } from "../creators/TaxRuleCreator/defaultTaxRule.creator.js";
 import { UsaTaxRuleCreator } from "../creators/TaxRuleCreator/usaTaxRule.creator.js";
