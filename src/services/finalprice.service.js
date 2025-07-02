@@ -1,11 +1,13 @@
-import { CanadaTaxRuleCreator } from "../creators/canadaTaxRule.creator.js";
-import { DefaultTaxRuleCreator } from "../creators/defaultTaxRule.creator.js";
-import { UsaTaxRuleCreator } from "../creators/usaTaxRule.creator.js";
+import { DiscountCouponRuleCreator } from "../creators/CouponRuleCreator/discountCoupon.creator.js";
+import { CanadaTaxRuleCreator } from "../creators/TaxRuleCreator/canadaTaxRule.creator.js";
+import { DefaultTaxRuleCreator } from "../creators/TaxRuleCreator/defaultTaxRule.creator.js";
+import { UsaTaxRuleCreator } from "../creators/TaxRuleCreator/usaTaxRule.creator.js";
 
 async function calculateFinalPrice(country, state, category, price, coupon) {
   const usaTax = new UsaTaxRuleCreator();
   const canadaTax = new CanadaTaxRuleCreator();
   const defaultTax = new DefaultTaxRuleCreator();
+  const couponInfo = new DiscountCouponRuleCreator();
 
   const report = {
     country,
@@ -15,23 +17,28 @@ async function calculateFinalPrice(country, state, category, price, coupon) {
     coupon,
   };
 
-  let taxInfo;
+  let saleInfo;
+
+  const discountCoupon = await couponInfo.getDiscountCoupon(coupon);
 
   if (country == "USA") {
-    taxInfo = await usaTax.calculate(state, category, price, coupon);
+    saleInfo = await usaTax.calculate(state, category, price);
   } else if (country == "Canada") {
-    taxInfo = await canadaTax.calculate(state, category, price, coupon);
+    saleInfo = await canadaTax.calculate(state, category, price);
   } else {
-    taxInfo = await defaultTax.calculate(state, category, price, coupon);
+    saleInfo = await defaultTax.calculate(state, category, price);
   }
 
-  const { tax, discount, finalPrice } = taxInfo;
+  const { tax, finalPrice } = saleInfo;
+
+  const { discount } = discountCoupon;
 
   report.tax = parseFloat(tax.toFixed(2));
   report.discount = parseFloat(discount.toFixed(2));
-  report.finalPrice = parseFloat(finalPrice.toFixed(2));
+  const discountCalculation = finalPrice - discount;
+  report.finalPrice = parseFloat(discountCalculation.toFixed(2));
 
-  return report
+  return report;
 }
 
 export default { calculateFinalPrice };

@@ -6,8 +6,6 @@ export class TaxRuleCreator {
 
     await taxRule.isValidState(state);
     await taxRule.isValidCategory(category);
-    await taxRule.isValidCoupon(coupon);
-
     await taxRule.calculation(price);
 
     return taxRule;

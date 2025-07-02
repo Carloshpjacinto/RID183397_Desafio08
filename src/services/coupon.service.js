@@ -10,11 +10,6 @@ async function createCouponService(newCoupon) {
   return createdCoupon;
 }
 
-async function findAllCouponsService() {
-  const coupons = await couponRepository.findAllCouponsRepository();
-  return coupons;
-}
-
 async function findCouponByNameService(code) {
   const coupon = await couponRepository.findCouponByNameRepository(code);
   return coupon;
@@ -39,7 +34,6 @@ async function deleteCouponService(couponId) {
 
 export default {
   createCouponService,
-  findAllCouponsService,
   findCouponByNameService,
   updateCouponService,
   deleteCouponService,
