@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "598ddcdd-4f42-487e-8db7-3ccd965363cc",
+		"name": "finalPrice_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32235987"
+	},
+	"item": [
+		{
+			"name": "getCouponByName",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/coupon?code=WINTER15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"coupon"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "WINTER15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTaxByCountry",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"DEFAULT\",\r\n    \"state\": \"\",\r\n    \"category\": \"\",\r\n    \"rate\": 0.15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/region?country=USA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"region"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "USA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFinalPriceCalculation",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/calculate?country=Brasil&state=SP&category=electronics&price=100&coupon=SUMMER10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"calculate"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "Brasil"
+						},
+						{
+							"key": "state",
+							"value": "SP"
+						},
+						{
+							"key": "category",
+							"value": "electronics"
+						},
+						{
+							"key": "price",
+							"value": "100"
+						},
+						{
+							"key": "coupon",
+							"value": "SUMMER10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
