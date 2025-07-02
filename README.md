@@ -41,6 +41,8 @@ código está escrito de forma desorganizada para ilustrar más práticas de des
 
 ## Exemplo de Requisição
 
+#### A collection (feita no Postman) das requisições está disponível no projeto.
+
 ### URL
 
 ```plaintext
