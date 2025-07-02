@@ -11,15 +11,6 @@ async function createRegionController(req, res) {
   }
 }
 
-async function findAllRegionsController(req, res) {
-  try {
-    const regions = await regionService.findAllRegionService();
-    return res.send(regions);
-  } catch (error) {
-    return res.status(404).send(error.message);
-  }
-}
-
 async function findCountryController(req, res) {
   const { country } = req.query;
   try {
@@ -56,7 +47,6 @@ async function deleteRegionController(req, res) {
 
 export default {
   createRegionController,
-  findAllRegionsController,
   findCountryController,
   updateRegionController,
   deleteRegionController,

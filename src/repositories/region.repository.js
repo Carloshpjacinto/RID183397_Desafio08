@@ -25,18 +25,6 @@ function createRegionRepository(newRegion) {
   });
 }
 
-function findAllRegionsRepository() {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM regions`, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
-}
-
 function findRegionByIdRepository(regionId) {
   return new Promise((resolve, reject) => {
     db.get(`SELECT * FROM regions WHERE id = ?`, [regionId], (err, row) => {
@@ -159,7 +147,6 @@ function deleteRegionRepository(regionId) {
 
 export default {
   createRegionRepository,
-  findAllRegionsRepository,
   findRegionByIdRepository,
   findRegionByCscRepository,
   findCountryRepository,

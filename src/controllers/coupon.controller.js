@@ -11,15 +11,6 @@ async function createCouponController(req, res) {
   }
 }
 
-async function findAllCouponsController(req, res) {
-  try {
-    const coupons = await couponService.findAllCouponsService();
-    return res.send(coupons);
-  } catch (error) {
-    return res.status(404).send(error.message);
-  }
-}
-
 async function findACouponsByNameController(req, res) {
   const { code } = req.query;
   try {
@@ -56,7 +47,6 @@ async function deleteCouponController(req, res) {
 
 export default {
   createCouponController,
-  findAllCouponsController,
   findACouponsByNameController,
   updateCouponController,
   deleteCouponController,

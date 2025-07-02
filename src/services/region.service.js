@@ -10,11 +10,6 @@ async function createRegionService(newRegion) {
   return createdRegion;
 }
 
-async function findAllRegionService() {
-  const regions = await regionRepository.findAllRegionsRepository();
-  return regions;
-}
-
 async function findRegionByCscService(country, state, category) {
   const region = await regionRepository.findRegionByCscRepository(
     country,
@@ -59,7 +54,6 @@ async function deleteRegionService(regionId) {
 
 export default {
   createRegionService,
-  findAllRegionService,
   findRegionByCscService,
   findCountryService,
   findRegionByStateService,

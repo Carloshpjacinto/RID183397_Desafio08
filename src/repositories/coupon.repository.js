@@ -23,18 +23,6 @@ function createCouponRepository(newCoupon) {
   });
 }
 
-function findAllCouponsRepository() {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM coupons`, [], (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
-}
-
 function findCouponByIdRepository(couponId) {
   return new Promise((resolve, reject) => {
     db.get(`SELECT * FROM coupons WHERE id = ?`, [couponId], (err, row) => {
@@ -103,7 +91,6 @@ function deleteCouponRepository(couponId) {
 
 export default {
   createCouponRepository,
-  findAllCouponsRepository,
   findCouponByIdRepository,
   findCouponByNameRepository,
   updateCouponRepository,

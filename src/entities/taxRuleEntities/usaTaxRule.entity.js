@@ -1,16 +1,13 @@
 import { TaxRule } from "./taxRule.entity.js";
-import regionService from "../services/region.service.js";
-import CouponService from "../services/coupon.service.js";
+import regionService from "../../services/region.service.js";
 
-export class CanadaTaxRule extends TaxRule {
+export class UsaTaxRule extends TaxRule {
   constructor() {
     super();
     this.tax = 0;
     this.state = "";
     this.category = "";
-    this.coupon = 0;
-    this.discount = 0;
-    this.finalPrice = 0;
+    this.finalPrice = 0
   }
 
   async isValidState(state) {
@@ -29,28 +26,17 @@ export class CanadaTaxRule extends TaxRule {
     }
   }
 
-  async isValidCoupon(coupon) {
-    const cpn = await CouponService.findCouponByNameService(coupon);
-
-    if (cpn != undefined) {
-      this.coupon = cpn.percentage / 100;
-    }
-  }
-
   async calculation(price) {
     const regionCalculation = await regionService.findRegionByCscService(
-      "Canada",
+      "USA",
       this.state,
       this.category
     );
 
-    this.discount = this.coupon * price;
-
-    this.tax = regionCalculation.rate;
+    this.tax = regionCalculation.rate * price
 
     this.finalPrice =
       parseFloat(price) +
-      parseFloat(price) * parseFloat(regionCalculation.rate) -
-      this.discount;
+      parseFloat(price) * parseFloat(regionCalculation.rate)
   }
 }
