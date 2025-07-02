@@ -2,7 +2,7 @@ import { TaxRule } from "./taxRule.entity.js";
 import regionService from "../services/region.service.js";
 import CouponService from "../services/coupon.service.js";
 
-export class UsaTaxRule extends TaxRule {
+export class DefaultTaxRule extends TaxRule {
   constructor() {
     super();
     this.tax = 0;
@@ -13,18 +13,16 @@ export class UsaTaxRule extends TaxRule {
   }
 
   async isValidState(state) {
-    const st = await regionService.findRegionByStateService(state);
-
-    if (st != undefined) {
-      this.state = st.state;
+    if (state != "") {
+      this.state = "";
     }
   }
 
   async isValidCategory(category) {
     const ct = await regionService.findCategoryService(category);
 
-    if (ct != undefined) {
-      this.category = ct.category;
+    if (ct != "") {
+      this.category = "";
     }
   }
 
@@ -38,7 +36,7 @@ export class UsaTaxRule extends TaxRule {
 
   async calculation(price) {
     const regionCalculation = await regionService.findRegionByCscService(
-      "USA",
+      "DEFAULT",
       this.state,
       this.category
     );

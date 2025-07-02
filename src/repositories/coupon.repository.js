@@ -47,6 +47,18 @@ function findCouponByIdRepository(couponId) {
   });
 }
 
+function findCouponByNameRepository(code) {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT * FROM coupons WHERE code = ?`, [code], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(row);
+      }
+    });
+  });
+}
+
 function updateCouponRepository(updatedCoupon, couponId) {
   return new Promise((resolve, reject) => {
     const { code, percentage } = updatedCoupon;
@@ -93,6 +105,7 @@ export default {
   createCouponRepository,
   findAllCouponsRepository,
   findCouponByIdRepository,
+  findCouponByNameRepository,
   updateCouponRepository,
   deleteCouponRepository,
 };
