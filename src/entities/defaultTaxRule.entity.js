@@ -10,11 +10,12 @@ export class DefaultTaxRule extends TaxRule {
     this.category = "";
     this.coupon = 0;
     this.discount = 0;
+    this.finalPrice = 0;
   }
 
   async isValidState(state) {
     if (state != "") {
-      this.state = "";
+      this.state = state;
     }
   }
 
@@ -22,7 +23,7 @@ export class DefaultTaxRule extends TaxRule {
     const ct = await regionService.findCategoryService(category);
 
     if (ct != "") {
-      this.category = "";
+      this.category = category;
     }
   }
 
@@ -37,13 +38,15 @@ export class DefaultTaxRule extends TaxRule {
   async calculation(price) {
     const regionCalculation = await regionService.findRegionByCscService(
       "DEFAULT",
-      this.state,
-      this.category
+      "",
+      ""
     );
 
     this.discount = this.coupon * price;
 
-    this.tax =
+    this.tax = regionCalculation.rate;
+
+    this.finalPrice =
       parseFloat(price) +
       parseFloat(price) * parseFloat(regionCalculation.rate) -
       this.discount;

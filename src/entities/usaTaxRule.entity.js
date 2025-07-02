@@ -10,6 +10,7 @@ export class UsaTaxRule extends TaxRule {
     this.category = "";
     this.coupon = 0;
     this.discount = 0;
+    this.finalPrice = 0
   }
 
   async isValidState(state) {
@@ -45,7 +46,9 @@ export class UsaTaxRule extends TaxRule {
 
     this.discount = this.coupon * price;
 
-    this.tax =
+    this.tax = regionCalculation.rate * price
+
+    this.finalPrice =
       parseFloat(price) +
       parseFloat(price) * parseFloat(regionCalculation.rate) -
       this.discount;

@@ -7,16 +7,31 @@ async function calculateFinalPrice(country, state, category, price, coupon) {
   const canadaTax = new CanadaTaxRuleCreator();
   const defaultTax = new DefaultTaxRuleCreator();
 
+  const report = {
+    country,
+    state,
+    category,
+    price,
+    coupon,
+  };
+
+  let taxInfo;
+
   if (country == "USA") {
-    const tax = await usaTax.calculate(state, category, price, coupon);
-    return parseFloat(tax.toFixed(2));
+    taxInfo = await usaTax.calculate(state, category, price, coupon);
   } else if (country == "Canada") {
-    const tax = await canadaTax.calculate(state, category, price, coupon);
-    return parseFloat(tax.toFixed(2));
+    taxInfo = await canadaTax.calculate(state, category, price, coupon);
   } else {
-    const tax = await defaultTax.calculate(state, category, price, coupon);
-    return parseFloat(tax.toFixed(2));
+    taxInfo = await defaultTax.calculate(state, category, price, coupon);
   }
+
+  const { tax, discount, finalPrice } = taxInfo;
+
+  report.tax = parseFloat(tax.toFixed(2));
+  report.discount = parseFloat(discount.toFixed(2));
+  report.finalPrice = parseFloat(finalPrice.toFixed(2));
+
+  return report
 }
 
 export default { calculateFinalPrice };

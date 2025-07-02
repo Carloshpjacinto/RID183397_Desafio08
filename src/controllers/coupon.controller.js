@@ -20,6 +20,16 @@ async function findAllCouponsController(req, res) {
   }
 }
 
+async function findACouponsByNameController(req, res) {
+  const { code } = req.query;
+  try {
+    const coupon = await couponService.findCouponByNameService(code);
+    return res.send(coupon);
+  } catch (error) {
+    return res.status(404).send(error.message);
+  }
+}
+
 async function updateCouponController(req, res) {
   try {
     const updatedCoupon = req.body;
@@ -47,6 +57,7 @@ async function deleteCouponController(req, res) {
 export default {
   createCouponController,
   findAllCouponsController,
+  findACouponsByNameController,
   updateCouponController,
   deleteCouponController,
 };
