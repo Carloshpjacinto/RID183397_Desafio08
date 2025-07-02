@@ -44,7 +44,7 @@ código está escrito de forma desorganizada para ilustrar más práticas de des
 ### URL
 
 ```plaintext
-GET http://localhost:3000/calculate?country=Brasil&state=SP&category=electronics&price=100&coupon=SUMMER10
+GET http://localhost:3000/calculate?country=USA&state=CA&category=electronics&price=100&coupon=SUMMER10
 ```
 
 ### Resposta
