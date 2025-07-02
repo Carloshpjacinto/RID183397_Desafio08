@@ -1,21 +1,10 @@
-import { validationPipe } from "./validation";
-
-export const validationMiddleware =
-  (validationSchema) => async (req, res, next) => {
-    const result = await validationPipe(validationSchema, {
-      ...req.body,
-      ...req.params,
-    });
-    if (!isEmpty(result))
-      return res.status(400).json({ success: false, ...result });
+const validate = (schema) => (req, res, next) => {
+  try {
+    schema.parse(req.query);
     next();
-  };
-
-const isEmpty = (obj) => {
-  for (const prop in obj) {
-    if (Object.hasOwn(obj, prop)) {
-      return false;
-    }
+  } catch (e) {
+    res.status(400).json({ error: e.errors });
   }
-  return true;
 };
+
+export { validate };
