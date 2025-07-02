@@ -19,7 +19,7 @@ código está escrito de forma desorganizada para ilustrar más práticas de des
     - **category** (categoria do produto).
     - **price** (preço do produto, como número).
 3. ✅ Opcionalmente, pode receber:
-    - **discountCode** (código de desconto aplicável).
+    - **coupon** (código de desconto aplicável).
 4. ✅ Calcula os impostos com base no país, estado e categoria do produto.
 5. ✅ Aplica descontos, se o código for válido.
 6. ✅ Gera um relatório no console com os detalhes da operação.
@@ -35,7 +35,7 @@ código está escrito de forma desorganizada para ilustrar más práticas de des
 | **state**        | String | ✅           | Estado do cliente (ex.: CA, TX).              |
 | **category**     | String | ✅           | Categoria do produto (ex.: electronics).      |
 | **price**        | Number | ✅           | Preço do produto em formato numérico.         |
-| **discountCode** | String | ❌           | Código de desconto aplicável (ex.: SUMMER10). |
+| **coupon**       | String | ❌           | Código de desconto aplicável (ex.: SUMMER10). |
 
 ---
 
@@ -44,7 +44,7 @@ código está escrito de forma desorganizada para ilustrar más práticas de des
 ### URL
 
 ```plaintext
-GET http://localhost:3000/calculate?country=USA&state=CA&category=electronics&price=100&discountCode=SUMMER10
+GET http://localhost:3000/calculate?country=USA&state=CA&category=electronics&price=100&coupon=SUMMER10
 ```
 
 ### Resposta
@@ -55,7 +55,7 @@ GET http://localhost:3000/calculate?country=USA&state=CA&category=electronics&pr
    "state": "CA",
    "category": "electronics",
    "price": 100,
-   "discountCode": "SUMMER10",
+   "coupon": "SUMMER10",
    "tax": 8.25,
    "discount": 10,
    "finalPrice": 98.25
@@ -103,16 +103,6 @@ Retorna quando ocorre qualquer outro problema inesperado no servidor, como falha
   "error": "Erro inesperado no servidor"
 }
 ```
-
----
-
-## Problemas identificados no código atual:
-
-- Função monolítica (calculate): Combina lógica de cálculo de impostos, descontos e geração de relatórios, violando o princípio de responsabilidade única.
-- Validação de parâmetros na rota: O processo de validação está misturado à lógica da rota.
-- Console.log no servidor: A geração do relatório direto no console não é prática em ambientes de produção.
-- Sem estrutura modular: A lógica poderia ser separada em funções ou arquivos para facilitar manutenção e testes.
-- Tratamento de erros: O tratamento de erros é limitado.
 
 ---
 
