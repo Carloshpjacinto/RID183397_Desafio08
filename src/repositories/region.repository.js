@@ -65,6 +65,18 @@ function findRegionByCscRepository(country, state, category) {
   });
 }
 
+function findCountryRepository(country) {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT * FROM regions WHERE country = ?`, [country], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
 function findRegionByStateRepository(state) {
   return new Promise((resolve, reject) => {
     db.get(`SELECT * FROM regions WHERE state = ?`, [state], (err, row) => {
@@ -150,6 +162,7 @@ export default {
   findAllRegionsRepository,
   findRegionByIdRepository,
   findRegionByCscRepository,
+  findCountryRepository,
   findRegionByStateRepository,
   findCategoryRepository,
   updateRegionRepository,

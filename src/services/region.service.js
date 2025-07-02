@@ -25,14 +25,17 @@ async function findRegionByCscService(country, state, category) {
   return region;
 }
 
+async function findCountryService(country) {
+  const st = await regionRepository.findCountryRepository(country);
+  return st;
+}
+
 async function findRegionByStateService(state) {
-  if (!state) return await regionRepository.findAllRegionsRepository();
   const st = await regionRepository.findRegionByStateRepository(state);
   return st;
 }
 
 async function findCategoryService(category) {
-  if (!category) return await regionRepository.findAllRegionsRepository();
   const ct = await regionRepository.findCategoryRepository(category);
   return ct;
 }
@@ -58,6 +61,7 @@ export default {
   createRegionService,
   findAllRegionService,
   findRegionByCscService,
+  findCountryService,
   findRegionByStateService,
   findCategoryService,
   updateRegionService,

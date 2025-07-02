@@ -10,6 +10,6 @@ export class TaxRuleCreator {
 
     await taxRule.calculation(price);
 
-    return taxRule.tax;
+    return taxRule;
   }
 }
