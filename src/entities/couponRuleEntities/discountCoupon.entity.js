@@ -1,5 +1,4 @@
 import { CouponRule } from "./couponRule.entity.js";
-import CouponService from "../../services/coupon.service.js";
 
 export class DiscountCouponRule extends CouponRule {
   constructor() {
@@ -8,10 +7,6 @@ export class DiscountCouponRule extends CouponRule {
   }
 
   async isValidCoupon(code) {
-    const coupon = await CouponService.findCouponByNameService(code);
-
-    if (coupon != undefined) {
-      this.discount = coupon.percentage;
-    }
+    this.discount = code.percentage;
   }
 }

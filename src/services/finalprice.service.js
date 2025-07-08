@@ -2,6 +2,8 @@ import { DiscountCouponRuleCreator } from "../creators/couponRuleCreator/discoun
 import { CanadaTaxRuleCreator } from "../creators/TaxRuleCreator/canadaTaxRule.creator.js";
 import { DefaultTaxRuleCreator } from "../creators/TaxRuleCreator/defaultTaxRule.creator.js";
 import { UsaTaxRuleCreator } from "../creators/TaxRuleCreator/usaTaxRule.creator.js";
+import couponService from "./coupon.service.js";
+import regionService from "./region.service.js";
 
 async function calculateFinalPrice(country, state, category, price, coupon) {
   const usaTax = new UsaTaxRuleCreator();
@@ -18,15 +20,48 @@ async function calculateFinalPrice(country, state, category, price, coupon) {
   };
 
   let saleInfo;
+  let regionCalculation;
 
-  const discountCoupon = await couponInfo.getDiscountCoupon(coupon);
+  const cp = await couponService.findCouponByNameService(coupon);
+
+  const discountCoupon = await couponInfo.getDiscountCoupon(cp);
 
   if (country == "USA") {
-    saleInfo = await usaTax.calculate(state, category, price);
+    regionCalculation = await regionService.findRegionByCscService(
+      "USA",
+      state,
+      category
+    );
+    saleInfo = await usaTax.calculate(
+      regionCalculation.state,
+      regionCalculation.category,
+      price,
+      regionCalculation.rate
+    );
   } else if (country == "Canada") {
-    saleInfo = await canadaTax.calculate(state, category, price);
+    regionCalculation = await regionService.findRegionByCscService(
+      "Canada",
+      state,
+      category
+    );
+    saleInfo = await canadaTax.calculate(
+      regionCalculation.state,
+      regionCalculation.category,
+      price,
+      regionCalculation.rate
+    );
   } else {
-    saleInfo = await defaultTax.calculate(state, category, price);
+    regionCalculation = await regionService.findRegionByCscService(
+      "DEFAULT",
+      "",
+      ""
+    );
+    saleInfo = await defaultTax.calculate(
+      regionCalculation.state,
+      regionCalculation.category,
+      price,
+      regionCalculation.rate
+    );
   }
 
   const { tax, finalPrice } = saleInfo;

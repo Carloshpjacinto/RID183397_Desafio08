@@ -1,5 +1,4 @@
 import { TaxRule } from "./taxRule.entity.js";
-import regionService from "../../services/region.service.js";
 
 export class DefaultTaxRule extends TaxRule {
   constructor() {
@@ -11,30 +10,16 @@ export class DefaultTaxRule extends TaxRule {
   }
 
   async isValidState(state) {
-    if (state != "") {
-      this.state = state;
-    }
+    this.state = state;
   }
 
   async isValidCategory(category) {
-    const ct = await regionService.findCategoryService(category);
-
-    if (ct != "") {
-      this.category = category;
-    }
+    this.category = category;
   }
 
-  async calculation(price) {
-    const regionCalculation = await regionService.findRegionByCscService(
-      "DEFAULT",
-      "",
-      ""
-    );
+  async calculation(price, rate) {
+    this.tax = rate;
 
-    this.tax = regionCalculation.rate;
-
-    this.finalPrice =
-      parseFloat(price) +
-      parseFloat(price) * parseFloat(regionCalculation.rate)
+    this.finalPrice = parseFloat(price) + parseFloat(price) * parseFloat(rate);
   }
 }
